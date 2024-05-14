@@ -1,0 +1,24 @@
+{
+  "name": "api_gateway",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/api_gateway/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "api_gateway:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "api_gateway:build:development"
+        },
+        "production": {
+          "buildTarget": "api_gateway:build:production"
+        }
+      }
+    }
+  }
+}
