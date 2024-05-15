@@ -1,26 +1,38 @@
-import { Injectable } from '@nestjs/common';
-import { CreateListDto } from './dto/create-list.dto';
-import { UpdateListDto } from './dto/update-list.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Todo, TodoDocument } from './entities/todo.entity';
+import { CreateTodoDto } from './dto/create-todo.dto';
+import { UpdateTodoDto } from './dto/update-todo.dto';
 
 @Injectable()
 export class ListService {
-  create(createListDto: CreateListDto) {
-    return 'This action adds a new list';
+  constructor(@InjectModel(Todo.name) private todoModel: Model<TodoDocument>) {}
+
+  async findAll() {
+    return this.todoModel.find().exec();
   }
 
-  findAll() {
-    return `This action returns all list`;
+  async create(createTodoDto: CreateTodoDto) {
+    const newTodo = new this.todoModel(createTodoDto);
+    return newTodo.save();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} list`;
+  async update(id: string, updateTodoDto: UpdateTodoDto) {
+    const todo = await this.todoModel.findById(id);
+    if (!todo) {
+      throw new NotFoundException('Todo not found');
+    }
+    todo.checked = updateTodoDto.checked; // assuming 'checked' is the only field in UpdateTodoDto
+    await todo.save();
+    return todo;
   }
 
-  update(id: number, updateListDto: UpdateListDto) {
-    return `This action updates a #${id} list`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} list`;
+  async delete(id: string) {
+    const result = await this.todoModel.deleteOne({ _id: id }).exec();
+    if (result.deletedCount === 0) {
+      throw new NotFoundException('Todo not found');
+    }
+    return { message: 'Todo deleted successfully' };
   }
 }

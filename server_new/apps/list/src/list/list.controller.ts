@@ -1,34 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
 import { ListService } from './list.service';
-import { CreateListDto } from './dto/create-list.dto';
-import { UpdateListDto } from './dto/update-list.dto';
+import { CreateTodoDto } from './dto/create-todo.dto';
+import { UpdateTodoDto } from './dto/update-todo.dto';
 
-@Controller('list')
+@Controller()
 export class ListController {
   constructor(private readonly listService: ListService) {}
 
-  @Post()
-  create(@Body() createListDto: CreateListDto) {
-    return this.listService.create(createListDto);
-  }
-
-  @Get()
-  findAll() {
+  @Get('getList')
+  getAllTodos() {
     return this.listService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.listService.findOne(+id);
+  @Post('addTodo')
+  addTodo(@Body() createTodoDto: CreateTodoDto) {
+    return this.listService.create(createTodoDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateListDto: UpdateListDto) {
-    return this.listService.update(+id, updateListDto);
+  @Put('editTodo/:id')
+  editTodo(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
+    return this.listService.update(id, updateTodoDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.listService.remove(+id);
+  @Delete('deleteTodo/:id')
+  deleteTodo(@Param('id') id: string) {
+    return this.listService.delete(id);
   }
 }
