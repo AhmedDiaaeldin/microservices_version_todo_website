@@ -22,7 +22,11 @@ const Todos = () => {
     useEffect(() => {
         const action = async () => {
             try {
+
+                const token = localStorage.getItem('token')
+                if (!token) return navigate('/login')
                 setLoading(true)
+                const allTodos = await getTodos(token)
                 setTodos(draft => draft = allTodos.data)
                 setLoading(false)
             } catch (err) {
@@ -35,6 +39,7 @@ const Todos = () => {
     }, [])
 
     const logOut = () => {
+        localStorage.removeItem('token')
         navigate('/login')
     }
 

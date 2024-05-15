@@ -17,6 +17,8 @@ const Register = () => {
     try{
       const result= await register(username,password)
       if(result.status===200){
+        const token=result.headers['x-auth-token']
+        localStorage.setItem('token', token)
         navigate('/todos')
       }
     }catch(e){

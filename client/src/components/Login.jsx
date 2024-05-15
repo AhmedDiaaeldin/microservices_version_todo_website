@@ -13,6 +13,7 @@ const Login=()=>{
       const result=await login(user,password)
       console.log(result);
       if(result.status===200) {
+        localStorage.setItem('token',result.headers['x-auth-token'])
         navigate('/todos')
       }
     }catch(e){

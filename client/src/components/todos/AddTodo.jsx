@@ -12,8 +12,10 @@ const AddTodo = () => {
 
     
     const submitForm=async(data) => {
+        const token= localStorage.getItem("token");
         try {
             setLoading(true);
+            const result=await addTodo(data,token)
             if(result.status===200){
                 setTodos(draft=> {
                     draft.push(result.data)

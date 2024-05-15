@@ -13,6 +13,7 @@ const Todo = ({data}) => {
 
     const check=async()=> {
         try{
+            const result=await editTodo(data._id,localStorage.getItem('token'))
             if(result.status===200){
                 setTodos(draft=>{
                     draft=result.data
@@ -29,6 +30,7 @@ const Todo = ({data}) => {
         try{
             setTodos(draft=>draft.filter(todo=>todo._id!==data._id))
 
+            const result=await deleteTodo(data._id,localStorage.getItem('token'))
             toast.info('Todo deleted successfully',{icon:'💣'})
             if (result.status!==200){
                 setTodos(allTodos)
