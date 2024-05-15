@@ -12,9 +12,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  const port = process.env.PORT || 3330;
-  const USERS_SERVICE_URL = "http://localhost:3331";
-  const LIST_SERVICE_URL = "http://localhost:3332";
+  const port = process.env.PORT;
+  const USERS_SERVICE_URL = "http://localhost:3001";
+  const LIST_SERVICE_URL = "http://localhost:3002";
 
   // Proxy endpoints
   app.use('/api/users', createProxyMiddleware({

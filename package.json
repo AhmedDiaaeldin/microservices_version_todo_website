@@ -1,5 +1,14 @@
 {
   "dependencies": {
-    "http-proxy-middleware": "^3.0.0"
+    "@nestjs/config": "^3.2.2",
+    "@nestjs/mongoose": "^10.0.6",
+    "class-validator": "^0.14.1",
+    "config": "^3.3.11",
+    "dotenv": "^16.4.5",
+    "http-proxy-middleware": "^3.0.0",
+    "mongoose": "^8.3.4"
+  },
+  "devDependencies": {
+    "nx": "19.0.3"
   }
 }
